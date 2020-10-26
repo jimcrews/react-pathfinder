@@ -1,0 +1,8 @@
+.nav-selector {
+  background-color: rgb(82, 82, 82);
+  color: white;
+  margin-bottom: 30px;
+}
+.nav-selector .nav-content table {
+  margin: 0 auto;
+}

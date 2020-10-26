@@ -1,24 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Grid from "./components/Grid.js";
+import NavSelector from "./components/NavSelector";
 
 function App() {
+  const [rowsCount, setRowsCount] = useState(15);
+  const [columnCount, setColumnCount] = useState(30);
+  const [selection, setSelection] = useState("START");
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <NavSelector
+        rowsCount={rowsCount}
+        setRowsCount={setRowsCount}
+        columnCount={columnCount}
+        setColumnCount={setColumnCount}
+        setSelection={setSelection}
+      />
+      <Grid
+        rowsCount={rowsCount}
+        columnCount={columnCount}
+        selection={selection}
+      />
     </div>
   );
 }
