@@ -17,8 +17,7 @@ export default function Node({
   setFinishCol,
   reset,
   setReset,
-  go,
-  setGo,
+  isVisited,
 }) {
   const [isStartNode, setIsStartNode] = useState(false);
   const [isFinishNode, setIsFinishNode] = useState(false);
@@ -50,11 +49,8 @@ export default function Node({
   }, [reset, setReset]);
 
   useEffect(() => {
-    if (go) {
-      console.log(go);
-      setGo(false);
-    }
-  }, [go, setGo]);
+    console.log(isVisited);
+  }, [isVisited]);
 
   const handleNodeClickDrag = (e, row, col) => {
     if (e.buttons === 1 || e.buttons === 3) {
@@ -64,13 +60,13 @@ export default function Node({
     }
   };
   const handleNodeClicked = (row, col) => {
-    if (selection === "WALL" && !isWall) {
+    if (selection === "WALL" && !isWall && !isStartNode && !isFinishNode) {
       setIsWall(true);
     }
     if (selection === "WALL" && isWall) {
       setIsWall(false);
     }
-    if (selection === "START" && !isStartNode) {
+    if (selection === "START" && !isStartNode && !isFinishNode && !isWall) {
       //setIsStartNode(true);
       setStartRow(row);
       setStartCol(column);
@@ -78,7 +74,7 @@ export default function Node({
     if (selection === "START" && isStartNode) {
       setIsStartNode(false);
     }
-    if (selection === "FINISH" && !isFinishNode) {
+    if (selection === "FINISH" && !isFinishNode && !isStartNode && !isWall) {
       //setIsFinishNode(true);
       setFinishRow(row);
       setFinishCol(column);
@@ -110,7 +106,7 @@ export default function Node({
       )}
       {isWall && <span className="wall"></span>}
 
-      {!isStartNode && !isWall && !isFinishNode && <span></span>}
+      {!isStartNode && !isWall && !isFinishNode && !isVisited && <span></span>}
     </div>
   );
 }

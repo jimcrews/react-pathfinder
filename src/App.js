@@ -16,7 +16,19 @@ function App() {
   const [finishCol, setFinishCol] = useState(null);
 
   const [reset, setReset] = useState(false);
-  const [go, setGo] = useState(false);
+
+  const [isVisited, setIsVisited] = useState([]);
+
+  const goPath = () => {
+    let visited = [];
+    let startLocation = [startRow, startCol];
+
+    for (let i = 0; i < rowsCount; i++) {
+      for (let j = 0; j < columnCount; j++) {}
+    }
+
+    console.log(startLocation);
+  };
 
   return (
     <div className="App">
@@ -71,7 +83,7 @@ function App() {
                   <button onClick={() => setReset(true)}>Reset</button>
                 </td>
                 <td style={{ paddingLeft: "5px" }}>
-                  <button onClick={() => setGo(true)}>Go</button>
+                  <button onClick={goPath}>Go</button>
                 </td>
               </tr>
             </tbody>
@@ -102,8 +114,7 @@ function App() {
                         setFinishCol={setFinishCol}
                         reset={reset}
                         setReset={setReset}
-                        go={go}
-                        setGo={setGo}
+                        isVisited={isVisited}
                       />
                     </div>
                   </td>
