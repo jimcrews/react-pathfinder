@@ -15,6 +15,10 @@ export default function Node({
   finishCol,
   setFinishRow,
   setFinishCol,
+  reset,
+  setReset,
+  go,
+  setGo,
 }) {
   const [isStartNode, setIsStartNode] = useState(false);
   const [isFinishNode, setIsFinishNode] = useState(false);
@@ -35,6 +39,22 @@ export default function Node({
       setIsFinishNode(false);
     }
   }, [finishRow, finishCol, column, row]);
+
+  useEffect(() => {
+    if (reset) {
+      setIsWall(false);
+      setIsStartNode(false);
+      setIsFinishNode(false);
+      setReset(false);
+    }
+  }, [reset, setReset]);
+
+  useEffect(() => {
+    if (go) {
+      console.log(go);
+      setGo(false);
+    }
+  }, [go, setGo]);
 
   const handleNodeClickDrag = (e, row, col) => {
     if (e.buttons === 1 || e.buttons === 3) {
