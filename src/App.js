@@ -7,8 +7,8 @@ import "./navSelector.css";
 import "./grid.css";
 
 function App() {
-  const [rowsCount, setRowsCount] = useState(3);
-  const [columnCount, setColumnCount] = useState(4);
+  const [rowsCount, setRowsCount] = useState(26);
+  const [columnCount, setColumnCount] = useState(40);
   const [selection, setSelection] = useState("START");
 
   const [startRow, setStartRow] = useState(null);
@@ -19,6 +19,8 @@ function App() {
 
   const [resultPath, setResultPath] = useState(null);
   const [resultDistance, setResultDistance] = useState(null);
+
+  const [hasRun, setHasRun] = useState(false);
 
   //const [graph, setGraph] = useState(null);
 
@@ -38,11 +40,10 @@ function App() {
     let distance = results.distance;
     let path = results.path;
 
-    console.log(distance);
-    console.log(path);
-
     setResultPath(path);
     setResultDistance(distance);
+    setHasRun(true);
+    setSelection("WALL");
   };
 
   const updateGraph = (row, column, nodeState) => {
@@ -60,6 +61,8 @@ function App() {
     setFinishRow(null);
     setFinishCol(null);
     setReset(true);
+    setResultPath(null);
+    setHasRun(false);
   };
 
   return (
@@ -102,12 +105,23 @@ function App() {
                       type="radio"
                       value="START"
                       name="selection"
+                      disabled={hasRun}
                       defaultChecked
                     />
                     Start
-                    <input type="radio" value="FINISH" name="selection" />
+                    <input
+                      type="radio"
+                      value="FINISH"
+                      name="selection"
+                      disabled={hasRun}
+                    />
                     Finish
-                    <input type="radio" value="WALL" name="selection" />
+                    <input
+                      type="radio"
+                      value="WALL"
+                      name="selection"
+                      checked={hasRun}
+                    />
                     Wall
                   </div>
                 </td>

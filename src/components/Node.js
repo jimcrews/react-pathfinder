@@ -70,12 +70,14 @@ export default function Node({
       if (selection === "WALL" && !isWall) {
         updateGraph(row, column, "WALL");
         setIsWall(true);
+        setIsPath(false);
       }
     }
   };
   const handleNodeClicked = (row, col) => {
     if (selection === "WALL" && !isWall && !isStartNode && !isFinishNode) {
       updateGraph(row, column, "WALL");
+      setIsPath(false);
       setIsWall(true);
     }
     if (selection === "WALL" && isWall) {
@@ -109,14 +111,14 @@ export default function Node({
       onMouseDown={() => handleNodeClicked(row, column)}
     >
       {isStartNode && (
-        <span>
+        <span className={resultPath ? "path" : ""}>
           <FaBullseye
             style={{ fontSize: "26px", paddingTop: "2px", color: "green" }}
           />
         </span>
       )}
       {isFinishNode && (
-        <span>
+        <span className={resultPath ? "path" : ""}>
           <FaBullseye
             style={{ fontSize: "26px", paddingTop: "2px", color: "red" }}
           />

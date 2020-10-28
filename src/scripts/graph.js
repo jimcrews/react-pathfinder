@@ -5,7 +5,6 @@ let finishLocation = null;
 
 export function create(totalRows, totalColumns) {
   // create empty graph
-  console.log("hit");
   graph = {};
 
   for (let i = 0; i < totalRows; i++) {
@@ -189,9 +188,7 @@ export function go() {
         trackedParents[child] = node;
       }
     }
-
     processedNodes.push(node);
-
     node = findLowestCostNode(trackedCosts, processedNodes);
   }
 
@@ -208,12 +205,13 @@ export function go() {
     path: optimalPath,
   };
 
+  console.log(trackedCosts);
+  console.log(optimalPath);
+
   return results;
 }
 
 export function clear() {
   startLocation = null;
   finishLocation = null;
-
-  console.log("hit");
 }
