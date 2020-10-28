@@ -1,34 +1,3 @@
-/*
-let graph = {
-  start: { A: 5, B: 2 },
-  A: { C: 4, D: 2 },
-  B: { A: 8, D: 7 },
-  C: { D: 6, finish: 3 },
-  D: { finish: 1 },
-  finish: {},
-};
-*/
-
-/*
-"4,3": {
-    "3,3": 1
-    ​​
-    "3,4": 1
-    ​​
-    "3,2": 1
-    ​​
-    "4,4": 1
-    ​​
-    "4,2": 1
-    ​​
-    "5,3": 1
-    ​​
-    "5,4": 1
-    ​​
-    "5,2": 1
-}
-​​*/
-
 let graph = {};
 
 let startLocation = null;
@@ -36,7 +5,7 @@ let finishLocation = null;
 
 export function create(totalRows, totalColumns) {
   // create empty graph
-
+  console.log("hit");
   graph = {};
 
   for (let i = 0; i < totalRows; i++) {
@@ -52,31 +21,36 @@ export function create(totalRows, totalColumns) {
       if (i > 0) {
         neighbors[`${i - 1},${j}`] = 1;
       }
+
+      /*
       // create north east neighbor
-      if (i > 0 && j < totalColumns) {
+      if (i > 0 && j < totalColumns - 1) {
         neighbors[`${i - 1},${j + 1}`] = 1;
       }
       // create north west neighbor
       if (i > 0 && j > 0) {
         neighbors[`${i - 1},${j - 1}`] = 1;
       }
+      */
 
       // create east neighbor
-      if (j < totalColumns) {
+      if (j < totalColumns - 1) {
         neighbors[`${i},${j + 1}`] = 1;
       }
       // create south neighbor
-      if (i < totalRows) {
+      if (i < totalRows - 1) {
         neighbors[`${i + 1},${j}`] = 1;
       }
+      /*
       // create south east neighbor
-      if (i < totalRows && j < totalColumns) {
+      if (i < totalRows && j < totalColumns - 1) {
         neighbors[`${i + 1},${j + 1}`] = 1;
       }
       // create south west neighbor
-      if (i < totalRows && j > 0) {
+      if (i < totalRows - 1 && j > 0) {
         neighbors[`${i + 1},${j - 1}`] = 1;
       }
+      */
 
       // create west neighbor
       if (j > 0) {
@@ -91,10 +65,29 @@ export function create(totalRows, totalColumns) {
 }
 
 export function update(row, column, nodeState) {
+  if (nodeState === "") {
+    let emptyLocation = `${row},${column}`;
+
+    Object.keys(graph).forEach(function (key) {
+      if (graph[key][emptyLocation]) {
+        graph[key][emptyLocation] = 1;
+      }
+    });
+  }
+
   if (nodeState === "FINISH") {
+    // If finish is moved, rename finish back to co-ords
+    if (finishLocation) {
+      Object.defineProperty(
+        graph,
+        finishLocation,
+        Object.getOwnPropertyDescriptor(graph, "finish")
+      );
+      delete graph["finish"];
+    }
+
     finishLocation = `${row},${column}`;
 
-    /*
     // rename object key
     Object.defineProperty(
       graph,
@@ -110,20 +103,38 @@ export function update(row, column, nodeState) {
         })[finishLocation];
       }
     });
-    */
   }
 
   if (nodeState === "START") {
+    // If start is moved, rename start back to co-ords
+    if (startLocation) {
+      Object.defineProperty(
+        graph,
+        startLocation,
+        Object.getOwnPropertyDescriptor(graph, "start")
+      );
+      delete graph["start"];
+    }
     startLocation = `${row},${column}`;
 
-    /*
+    console.log(startLocation);
+
     Object.defineProperty(
       graph,
       "start",
       Object.getOwnPropertyDescriptor(graph, startLocation)
     );
     delete graph[startLocation];
-    */
+  }
+
+  if (nodeState === "WALL") {
+    let wallLocation = `${row},${column}`;
+
+    Object.keys(graph).forEach(function (key) {
+      if (graph[key][wallLocation]) {
+        graph[key][wallLocation] = Infinity;
+      }
+    });
   }
 
   console.log(graph);
@@ -133,6 +144,7 @@ export function get() {
   return graph;
 }
 
+// helper
 const findLowestCostNode = (costs, processed) => {
   const knownNodes = Object.keys(costs);
 
@@ -151,32 +163,24 @@ const findLowestCostNode = (costs, processed) => {
 
 // function that returns the minimum cost and path to reach Finish
 export function go() {
-  console.log("Graph: ");
   console.log(graph);
 
   // track lowest cost to reach each node
   const trackedCosts = Object.assign({ finish: Infinity }, graph.start);
-  console.log("Initial `costs`: ");
-  console.log(trackedCosts);
 
   // track paths
   const trackedParents = { finish: null };
   for (let child in graph.start) {
     trackedParents[child] = "start";
   }
-  console.log("Initial `parents`: ");
-  console.log(trackedParents);
 
   // track nodes that have already been processed
   const processedNodes = [];
 
   // Set initial node. Pick lowest cost node.
   let node = findLowestCostNode(trackedCosts, processedNodes);
-  console.log("Initial `node`: ", node);
 
-  console.log("while loop starts: ");
   while (node) {
-    console.log(`***** 'currentNode': ${node} *****`);
     let costToReachNode = trackedCosts[node];
     let childrenOfNode = graph[node];
 
@@ -188,17 +192,12 @@ export function go() {
         trackedCosts[child] = costToChild;
         trackedParents[child] = node;
       }
-
-      console.log("`trackedCosts`", trackedCosts);
-      console.log("`trackedParents`", trackedParents);
-      console.log("----------------");
     }
 
     processedNodes.push(node);
 
     node = findLowestCostNode(trackedCosts, processedNodes);
   }
-  console.log("while loop ends: ");
 
   let optimalPath = ["finish"];
   let parent = trackedParents.finish;

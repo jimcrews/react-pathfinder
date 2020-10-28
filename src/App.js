@@ -22,9 +22,12 @@ function App() {
   const [reset, setReset] = useState(false);
 
   useEffect(() => {
-    console.log("create");
-    //setGraph(graphApi.create(rowsCount, columnCount));
     graphApi.create(rowsCount, columnCount);
+    setStartRow(null);
+    setStartCol(null);
+    setFinishRow(null);
+    setFinishCol(null);
+    setReset(true);
   }, [rowsCount, columnCount]);
 
   const goPath = () => {
@@ -36,6 +39,15 @@ function App() {
     //console.log(row);
     //console.log(column);
     //console.log(nodeState);
+  };
+
+  const restart = () => {
+    graphApi.create(rowsCount, columnCount);
+    setStartRow(null);
+    setStartCol(null);
+    setFinishRow(null);
+    setFinishCol(null);
+    setReset(true);
   };
 
   return (
@@ -88,7 +100,7 @@ function App() {
                   </div>
                 </td>
                 <td style={{ paddingLeft: "30px" }}>
-                  <button onClick={() => setReset(true)}>Reset</button>
+                  <button onClick={() => restart()}>Reset</button>
                 </td>
                 <td style={{ paddingLeft: "5px" }}>
                   <button onClick={goPath}>Go</button>
