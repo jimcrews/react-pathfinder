@@ -20,19 +20,19 @@ function App() {
   const [resultPath, setResultPath] = useState(null);
   const [resultDistance, setResultDistance] = useState(null);
 
-  const [hasRun, setHasRun] = useState(false);
-
   //const [graph, setGraph] = useState(null);
 
   const [reset, setReset] = useState(false);
 
   useEffect(() => {
     graphApi.create(rowsCount, columnCount);
+    graphApi.clear();
     setStartRow(null);
     setStartCol(null);
     setFinishRow(null);
     setFinishCol(null);
     setReset(true);
+    setResultPath(null);
   }, [rowsCount, columnCount]);
 
   const goPath = () => {
@@ -42,8 +42,6 @@ function App() {
 
     setResultPath(path);
     setResultDistance(distance);
-    setHasRun(true);
-    setSelection("WALL");
   };
 
   const updateGraph = (row, column, nodeState) => {
@@ -62,7 +60,6 @@ function App() {
     setFinishCol(null);
     setReset(true);
     setResultPath(null);
-    setHasRun(false);
   };
 
   return (
@@ -105,23 +102,12 @@ function App() {
                       type="radio"
                       value="START"
                       name="selection"
-                      disabled={hasRun}
                       defaultChecked
                     />
                     Start
-                    <input
-                      type="radio"
-                      value="FINISH"
-                      name="selection"
-                      disabled={hasRun}
-                    />
+                    <input type="radio" value="FINISH" name="selection" />
                     Finish
-                    <input
-                      type="radio"
-                      value="WALL"
-                      name="selection"
-                      checked={hasRun}
-                    />
+                    <input type="radio" value="WALL" name="selection" />
                     Wall
                   </div>
                 </td>

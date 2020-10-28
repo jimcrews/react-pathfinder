@@ -83,9 +83,29 @@ export function update(row, column, nodeState) {
         Object.getOwnPropertyDescriptor(graph, "finish")
       );
       delete graph["finish"];
+
+      /*
+      Object.keys(graph).forEach(function (key) {
+        if (graph[key][finishLocation]) {
+          delete Object.assign(graph[key], {
+            [finishLocation]: graph[key][finishLocation],
+          })[finishLocation];
+        }
+      });
+
+      */
+
+      Object.keys(graph).forEach(function (key) {
+        if (graph[key]["finish"]) {
+          delete Object.assign(graph[key], {
+            [finishLocation]: graph[key]["finish"],
+          })["finish"];
+        }
+      });
     }
 
     finishLocation = `${row},${column}`;
+    console.log(finishLocation);
 
     // rename object key
     Object.defineProperty(
