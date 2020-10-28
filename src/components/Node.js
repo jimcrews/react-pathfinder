@@ -18,6 +18,7 @@ export default function Node({
   reset,
   setReset,
   isVisited,
+  updateGraph,
 }) {
   const [isStartNode, setIsStartNode] = useState(false);
   const [isFinishNode, setIsFinishNode] = useState(false);
@@ -48,38 +49,39 @@ export default function Node({
     }
   }, [reset, setReset]);
 
-  useEffect(() => {
-    console.log(isVisited);
-  }, [isVisited]);
-
   const handleNodeClickDrag = (e, row, col) => {
     if (e.buttons === 1 || e.buttons === 3) {
       if (selection === "WALL" && !isWall) {
+        updateGraph(row, column, "WALL");
         setIsWall(true);
       }
     }
   };
   const handleNodeClicked = (row, col) => {
     if (selection === "WALL" && !isWall && !isStartNode && !isFinishNode) {
+      updateGraph(row, column, "WALL");
       setIsWall(true);
     }
     if (selection === "WALL" && isWall) {
+      updateGraph(row, column, "");
       setIsWall(false);
     }
     if (selection === "START" && !isStartNode && !isFinishNode && !isWall) {
-      //setIsStartNode(true);
+      updateGraph(row, column, "START");
       setStartRow(row);
       setStartCol(column);
     }
     if (selection === "START" && isStartNode) {
+      updateGraph(row, column, "");
       setIsStartNode(false);
     }
     if (selection === "FINISH" && !isFinishNode && !isStartNode && !isWall) {
-      //setIsFinishNode(true);
+      updateGraph(row, column, "FINISH");
       setFinishRow(row);
       setFinishCol(column);
     }
     if (selection === "FINISH" && isFinishNode) {
+      updateGraph(row, column, "");
       setIsFinishNode(false);
     }
   };

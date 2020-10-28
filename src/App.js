@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Node from "./components/Node.js";
+
+import * as graphApi from "./scripts/graph";
 
 import "./navSelector.css";
 import "./grid.css";
 
 function App() {
-  const [rowsCount, setRowsCount] = useState(15);
-  const [columnCount, setColumnCount] = useState(30);
+  const [rowsCount, setRowsCount] = useState(3);
+  const [columnCount, setColumnCount] = useState(4);
   const [selection, setSelection] = useState("START");
 
   const [startRow, setStartRow] = useState(null);
@@ -15,19 +17,25 @@ function App() {
   const [finishRow, setFinishRow] = useState(null);
   const [finishCol, setFinishCol] = useState(null);
 
+  //const [graph, setGraph] = useState(null);
+
   const [reset, setReset] = useState(false);
 
-  const [isVisited, setIsVisited] = useState([]);
+  useEffect(() => {
+    console.log("create");
+    //setGraph(graphApi.create(rowsCount, columnCount));
+    graphApi.create(rowsCount, columnCount);
+  }, [rowsCount, columnCount]);
 
   const goPath = () => {
-    let visited = [];
-    let startLocation = [startRow, startCol];
+    graphApi.go();
+  };
 
-    for (let i = 0; i < rowsCount; i++) {
-      for (let j = 0; j < columnCount; j++) {}
-    }
-
-    console.log(startLocation);
+  const updateGraph = (row, column, nodeState) => {
+    graphApi.update(row, column, nodeState);
+    //console.log(row);
+    //console.log(column);
+    //console.log(nodeState);
   };
 
   return (
@@ -114,7 +122,7 @@ function App() {
                         setFinishCol={setFinishCol}
                         reset={reset}
                         setReset={setReset}
-                        isVisited={isVisited}
+                        updateGraph={updateGraph}
                       />
                     </div>
                   </td>
