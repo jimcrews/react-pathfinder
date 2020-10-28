@@ -17,6 +17,9 @@ function App() {
   const [finishRow, setFinishRow] = useState(null);
   const [finishCol, setFinishCol] = useState(null);
 
+  const [resultPath, setResultPath] = useState(null);
+  const [resultDistance, setResultDistance] = useState(null);
+
   //const [graph, setGraph] = useState(null);
 
   const [reset, setReset] = useState(false);
@@ -31,7 +34,15 @@ function App() {
   }, [rowsCount, columnCount]);
 
   const goPath = () => {
-    graphApi.go();
+    let results = graphApi.go();
+    let distance = results.distance;
+    let path = results.path;
+
+    console.log(distance);
+    console.log(path);
+
+    setResultPath(path);
+    setResultDistance(distance);
   };
 
   const updateGraph = (row, column, nodeState) => {
@@ -43,6 +54,7 @@ function App() {
 
   const restart = () => {
     graphApi.create(rowsCount, columnCount);
+    graphApi.clear();
     setStartRow(null);
     setStartCol(null);
     setFinishRow(null);
@@ -135,6 +147,8 @@ function App() {
                         reset={reset}
                         setReset={setReset}
                         updateGraph={updateGraph}
+                        resultPath={resultPath}
+                        resultDistance={resultDistance}
                       />
                     </div>
                   </td>

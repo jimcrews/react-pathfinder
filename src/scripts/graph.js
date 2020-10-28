@@ -61,7 +61,7 @@ export function create(totalRows, totalColumns) {
     }
   }
 
-  console.log(graph);
+  return graph;
 }
 
 export function update(row, column, nodeState) {
@@ -137,10 +137,6 @@ export function update(row, column, nodeState) {
     });
   }
 
-  console.log(graph);
-}
-
-export function get() {
   return graph;
 }
 
@@ -212,7 +208,12 @@ export function go() {
     path: optimalPath,
   };
 
-  console.log(results);
-
   return results;
+}
+
+export function clear() {
+  startLocation = null;
+  finishLocation = null;
+
+  console.log("hit");
 }

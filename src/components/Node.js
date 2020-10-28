@@ -19,10 +19,13 @@ export default function Node({
   setReset,
   isVisited,
   updateGraph,
+  resultPath,
+  resultDistance,
 }) {
   const [isStartNode, setIsStartNode] = useState(false);
   const [isFinishNode, setIsFinishNode] = useState(false);
   const [isWall, setIsWall] = useState(false);
+  const [isPath, setIsPath] = useState(false);
 
   useEffect(() => {
     if (row === startRow && column === startCol) {
@@ -45,9 +48,22 @@ export default function Node({
       setIsWall(false);
       setIsStartNode(false);
       setIsFinishNode(false);
+      setIsPath(false);
       setReset(false);
     }
   }, [reset, setReset]);
+
+  useEffect(() => {
+    if (resultPath) {
+      setIsPath(false);
+      let coords = `${row},${column}`;
+      for (let i = 0; i < resultPath.length; i++) {
+        if (resultPath[i] === coords) {
+          setIsPath(true);
+        }
+      }
+    }
+  }, [resultPath, row, column]);
 
   const handleNodeClickDrag = (e, row, col) => {
     if (e.buttons === 1 || e.buttons === 3) {
@@ -108,7 +124,11 @@ export default function Node({
       )}
       {isWall && <span className="wall"></span>}
 
-      {!isStartNode && !isWall && !isFinishNode && !isVisited && <span></span>}
+      {isPath && <span className="path"></span>}
+
+      {!isStartNode && !isWall && !isFinishNode && !isVisited && !isPath && (
+        <span></span>
+      )}
     </div>
   );
 }

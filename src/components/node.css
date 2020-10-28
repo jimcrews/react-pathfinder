@@ -37,3 +37,13 @@
   color: grey;
   border-radius: 3px;
 }
+
+.node .path {
+  display: block;
+  position: relative;
+
+  width: 30px;
+  height: 30px;
+  background-color: rgb(223, 255, 223);
+  color: grey;
+}
