@@ -84,17 +84,6 @@ export function update(row, column, nodeState) {
       );
       delete graph["finish"];
 
-      /*
-      Object.keys(graph).forEach(function (key) {
-        if (graph[key][finishLocation]) {
-          delete Object.assign(graph[key], {
-            [finishLocation]: graph[key][finishLocation],
-          })[finishLocation];
-        }
-      });
-
-      */
-
       Object.keys(graph).forEach(function (key) {
         if (graph[key]["finish"]) {
           delete Object.assign(graph[key], {
@@ -105,7 +94,6 @@ export function update(row, column, nodeState) {
     }
 
     finishLocation = `${row},${column}`;
-    console.log(finishLocation);
 
     // rename object key
     Object.defineProperty(
@@ -135,8 +123,6 @@ export function update(row, column, nodeState) {
       delete graph["start"];
     }
     startLocation = `${row},${column}`;
-
-    console.log(startLocation);
 
     Object.defineProperty(
       graph,
@@ -178,8 +164,6 @@ const findLowestCostNode = (costs, processed) => {
 
 // function that returns the minimum cost and path to reach Finish
 export function go() {
-  console.log(graph);
-
   // track lowest cost to reach each node
   const trackedCosts = Object.assign({ finish: Infinity }, graph.start);
 
@@ -224,9 +208,6 @@ export function go() {
     distance: trackedCosts.finish,
     path: optimalPath,
   };
-
-  console.log(trackedCosts);
-  console.log(optimalPath);
 
   return results;
 }

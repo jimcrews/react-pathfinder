@@ -72,7 +72,7 @@ function App() {
                 <td>Rows</td>
                 <td>Columns</td>
                 <td></td>
-                <td>Placements</td>
+                <td></td>
                 <td></td>
                 <td></td>
               </tr>
@@ -98,17 +98,28 @@ function App() {
                 <td></td>
                 <td>
                   <div onChange={(event) => setSelection(event.target.value)}>
-                    <input
-                      type="radio"
-                      value="START"
-                      name="selection"
-                      defaultChecked
-                    />
-                    Start
-                    <input type="radio" value="FINISH" name="selection" />
-                    Finish
-                    <input type="radio" value="WALL" name="selection" />
-                    Wall
+                    <label className="container">
+                      Start
+                      <input
+                        type="radio"
+                        value="START"
+                        name="selection"
+                        defaultChecked
+                      />
+                      <span className="checkmark"></span>
+                    </label>
+
+                    <label className="container">
+                      Finish
+                      <input type="radio" value="FINISH" name="selection" />
+                      <span className="checkmark"></span>
+                    </label>
+
+                    <label className="container">
+                      Wall
+                      <input type="radio" value="WALL" name="selection" />
+                      <span className="checkmark"></span>
+                    </label>
                   </div>
                 </td>
                 <td style={{ paddingLeft: "30px" }}>

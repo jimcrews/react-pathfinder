@@ -26,6 +26,8 @@ export default function Node({
   const [isFinishNode, setIsFinishNode] = useState(false);
   const [isWall, setIsWall] = useState(false);
   const [isPath, setIsPath] = useState(false);
+  const [finishMoved, setFinishMoved] = useState(false);
+  const [startMoved, setStartMoved] = useState(false);
 
   useEffect(() => {
     if (row === startRow && column === startCol) {
@@ -56,6 +58,8 @@ export default function Node({
   useEffect(() => {
     if (resultPath) {
       setIsPath(false);
+      setFinishMoved(false);
+      setStartMoved(false);
       let coords = `${row},${column}`;
       for (let i = 0; i < resultPath.length; i++) {
         if (resultPath[i] === coords) {
@@ -88,6 +92,7 @@ export default function Node({
       updateGraph(row, column, "START");
       setStartRow(row);
       setStartCol(column);
+      setStartMoved(true);
     }
     if (selection === "START" && isStartNode) {
       updateGraph(row, column, "");
@@ -97,6 +102,7 @@ export default function Node({
       updateGraph(row, column, "FINISH");
       setFinishRow(row);
       setFinishCol(column);
+      setFinishMoved(true);
     }
     if (selection === "FINISH" && isFinishNode) {
       updateGraph(row, column, "");
@@ -111,14 +117,14 @@ export default function Node({
       onMouseDown={() => handleNodeClicked(row, column)}
     >
       {isStartNode && (
-        <span className={resultPath ? "path" : ""}>
+        <span className={resultPath && !startMoved ? "path" : ""}>
           <FaBullseye
             style={{ fontSize: "26px", paddingTop: "2px", color: "green" }}
           />
         </span>
       )}
       {isFinishNode && (
-        <span className={resultPath ? "path" : ""}>
+        <span className={resultPath && !finishMoved ? "path" : ""}>
           <FaBullseye
             style={{ fontSize: "26px", paddingTop: "2px", color: "red" }}
           />
