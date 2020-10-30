@@ -1,5 +1,5 @@
 /* Apply this to your `table` element. */
-.grid table {
+.path-finder-app .grid table {
   margin: 0 auto;
   border-collapse: collapse;
   border-top: solid rgb(175, 175, 175) 1px;
@@ -7,7 +7,7 @@
 }
 
 /* And this to your table's `td` elements. */
-.grid table td {
+.path-finder-app .grid table td {
   padding: 0;
   margin: 0;
 }

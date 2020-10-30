@@ -308,7 +308,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="path-finder-app">
       <div className="nav-selector">
         <div className="nav-content">
           <table>

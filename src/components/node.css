@@ -1,4 +1,4 @@
-.node {
+.path-finder-app .node {
   font-size: 9px;
   background-color: aliceblue;
   width: 20px;
@@ -14,7 +14,7 @@
   user-select: none;
 }
 
-.node .wall {
+.path-finder-app .node .wall {
   display: block;
   position: relative;
   top: 1px;
@@ -26,7 +26,7 @@
   border-radius: 3px;
 }
 
-.node .visited {
+.path-finder-app .node .visited {
   display: block;
   position: relative;
   top: 1px;
@@ -38,7 +38,7 @@
   border-radius: 3px;
 }
 
-.node .path {
+.path-finder-app .node .path {
   display: block;
   position: relative;
 
