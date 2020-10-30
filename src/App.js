@@ -25,6 +25,7 @@ function App() {
   const [showSeek, setShowSeek] = useState(false);
 
   const [visitedNodes, setVisitedNodes] = useState(null);
+
   //const [processedNodes, setProcessedNodes] = useState([]);
 
   const [reset, setReset] = useState(false);
@@ -42,32 +43,35 @@ function App() {
 
   useEffect(() => {
     if (startLocation) {
-      Object.defineProperty(
-        graph,
-        "start",
-        Object.getOwnPropertyDescriptor(graph, startLocation)
-      );
-      delete graph[startLocation];
+      if (Object.getOwnPropertyDescriptor(graph, startLocation)) {
+        Object.defineProperty(
+          graph,
+          "start",
+          Object.getOwnPropertyDescriptor(graph, startLocation)
+        );
+        delete graph[startLocation];
+      }
     }
   }, [startLocation, graph]);
 
   useEffect(() => {
     if (finishLocation) {
-      // rename object key
-      Object.defineProperty(
-        graph,
-        "finish",
-        Object.getOwnPropertyDescriptor(graph, finishLocation)
-      );
-      delete graph[finishLocation];
+      if (Object.getOwnPropertyDescriptor(graph, finishLocation)) {
+        Object.defineProperty(
+          graph,
+          "finish",
+          Object.getOwnPropertyDescriptor(graph, finishLocation)
+        );
+        delete graph[finishLocation];
 
-      Object.keys(graph).forEach(function (key) {
-        if (graph[key][finishLocation]) {
-          delete Object.assign(graph[key], {
-            finish: graph[key][finishLocation],
-          })[finishLocation];
-        }
-      });
+        Object.keys(graph).forEach(function (key) {
+          if (graph[key][finishLocation]) {
+            delete Object.assign(graph[key], {
+              finish: graph[key][finishLocation],
+            })[finishLocation];
+          }
+        });
+      }
     }
   }, [finishLocation, graph]);
   /*
@@ -213,6 +217,16 @@ function App() {
       });
     }
 
+    if (nodeState === "WEIGHT") {
+      let weightLocation = `${row},${column}`;
+
+      Object.keys(graph).forEach(function (key) {
+        if (graph[key][weightLocation]) {
+          graph[key][weightLocation] = 20;
+        }
+      });
+    }
+
     //return graph;
   };
 
@@ -337,6 +351,12 @@ function App() {
                       <input type="radio" value="WALL" name="selection" />
                       <span className="checkmark"></span>
                     </label>
+
+                    <label className="container">
+                      Delay
+                      <input type="radio" value="WEIGHT" name="selection" />
+                      <span className="checkmark"></span>
+                    </label>
                   </div>
                 </td>
 
@@ -348,7 +368,10 @@ function App() {
                     Go
                   </button>
                 </td>
-                <td style={{ position: "absolute" }}>
+                <td
+                  style={{ position: "absolute" }}
+                  onClick={() => setShowSeek(!showSeek)}
+                >
                   <input
                     style={{ position: "relative", top: "12px", left: "20px" }}
                     type="checkbox"

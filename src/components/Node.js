@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaBullseye } from "react-icons/fa";
+import { FaBullseye, FaWeightHanging } from "react-icons/fa";
 
 import "./node.css";
 
@@ -26,6 +26,7 @@ export default function Node({
   const [isStartNode, setIsStartNode] = useState(false);
   const [isFinishNode, setIsFinishNode] = useState(false);
   const [isWall, setIsWall] = useState(false);
+  const [isWeight, setIsWeight] = useState(false);
   const [isPath, setIsPath] = useState(false);
   const [isVisited, setIsVisited] = useState(false);
   const [finishMoved, setFinishMoved] = useState(false);
@@ -55,6 +56,7 @@ export default function Node({
       setIsPath(false);
       setIsVisited(false);
       setReset(false);
+      setIsWeight(false);
     }
   }, [reset, setReset]);
 
@@ -103,6 +105,23 @@ export default function Node({
       updateGraph(row, column, "");
       setIsWall(false);
     }
+
+    if (
+      selection === "WEIGHT" &&
+      !isWeight &&
+      !isWall &&
+      !isStartNode &&
+      !isFinishNode
+    ) {
+      updateGraph(row, column, "WEIGHT");
+      setIsPath(false);
+      setIsWeight(true);
+    }
+    if (selection === "WEIGHT" && isWeight) {
+      updateGraph(row, column, "");
+      setIsWeight(false);
+    }
+
     if (selection === "START" && !isStartNode && !isFinishNode && !isWall) {
       updateGraph(row, column, "START");
       setStartRow(row);
@@ -147,16 +166,39 @@ export default function Node({
       )}
       {isWall && <span className="wall"></span>}
 
-      {isPath && <span className="path"></span>}
+      {isWeight && isPath && !isWall && (
+        <FaWeightHanging
+          style={{
+            position: "relative",
+            top: "2px",
+            left: "2px",
+            backgroundColor: "rgb(223, 255, 223)",
+            color: "green",
+          }}
+          size="16px"
+        />
+      )}
+
+      {isWeight && !isPath && !isWall && (
+        <FaWeightHanging
+          style={{ position: "relative", top: "2px", left: "2px" }}
+          size="16px"
+        />
+      )}
+
+      {isPath && !isWeight && <span className="path"></span>}
 
       {isVisited &&
         !isStartNode &&
         !isFinishNode &&
         !isWall &&
         !isPath &&
+        !isWeight &&
         showSeek && <span className="visited"></span>}
 
-      {!isStartNode && !isWall && !isFinishNode && !isPath && <span></span>}
+      {!isStartNode && !isWall && !isFinishNode && !isPath && !isWeight && (
+        <span></span>
+      )}
     </div>
   );
 }
