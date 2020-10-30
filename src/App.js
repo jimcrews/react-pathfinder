@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Node from "./components/Node.js";
 
-// import * as graphApi from "./scripts/graph";
-
 import "./navSelector.css";
 import "./grid.css";
 
@@ -25,8 +23,6 @@ function App() {
   const [showSeek, setShowSeek] = useState(false);
 
   const [visitedNodes, setVisitedNodes] = useState(null);
-
-  //const [processedNodes, setProcessedNodes] = useState([]);
 
   const [reset, setReset] = useState(false);
 
@@ -74,20 +70,13 @@ function App() {
       }
     }
   }, [finishLocation, graph]);
-  /*
-  useEffect(() => {
-    console.log(visitedNodes);
-  }, [visitedNodes]);
-*/
+
   const goPath = () => {
     go();
   };
 
   const updateGraph = (row, column, nodeState) => {
     update(row, column, nodeState);
-    //console.log(row);
-    //console.log(column);
-    //console.log(nodeState);
   };
 
   const restart = () => {

@@ -6,7 +6,7 @@ import "./node.css";
 export default function Node({
   row,
   column,
-  selection, // 'START' or 'FINISH' or 'WALL'
+  selection, // 'START' or 'FINISH' or 'WALL' or 'WEIGHT'
   startRow,
   startCol,
   setStartRow,
@@ -82,7 +82,6 @@ export default function Node({
           setIsVisited(true);
         }
       }
-      //console.log(`${row},${column}`);
     }
   }, [row, column, visitedNodes]);
 
