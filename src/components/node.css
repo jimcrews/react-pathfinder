@@ -1,8 +1,8 @@
 .node {
   font-size: 9px;
   background-color: aliceblue;
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   border-bottom: solid rgb(175, 175, 175) 1px;
   border-left: solid rgb(175, 175, 175) 1px;
 
@@ -19,8 +19,8 @@
   position: relative;
   top: 1px;
   left: 1px;
-  width: 28px;
-  height: 28px;
+  width: 18px;
+  height: 18px;
   background-color: rgb(192, 192, 192);
   color: grey;
   border-radius: 3px;
@@ -31,9 +31,9 @@
   position: relative;
   top: 1px;
   left: 1px;
-  width: 28px;
-  height: 28px;
-  background-color: rgb(200, 255, 210);
+  width: 18px;
+  height: 18px;
+  background-color: rgb(218, 240, 255);
   color: grey;
   border-radius: 3px;
 }
@@ -42,8 +42,8 @@
   display: block;
   position: relative;
 
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   background-color: rgb(223, 255, 223);
   color: grey;
 }

@@ -17,15 +17,17 @@ export default function Node({
   setFinishCol,
   reset,
   setReset,
-  isVisited,
+
   updateGraph,
   resultPath,
-  resultDistance,
+  visitedNodes,
+  showSeek,
 }) {
   const [isStartNode, setIsStartNode] = useState(false);
   const [isFinishNode, setIsFinishNode] = useState(false);
   const [isWall, setIsWall] = useState(false);
   const [isPath, setIsPath] = useState(false);
+  const [isVisited, setIsVisited] = useState(false);
   const [finishMoved, setFinishMoved] = useState(false);
   const [startMoved, setStartMoved] = useState(false);
 
@@ -51,6 +53,7 @@ export default function Node({
       setIsStartNode(false);
       setIsFinishNode(false);
       setIsPath(false);
+      setIsVisited(false);
       setReset(false);
     }
   }, [reset, setReset]);
@@ -60,6 +63,7 @@ export default function Node({
       setIsPath(false);
       setFinishMoved(false);
       setStartMoved(false);
+      setIsVisited(false);
       let coords = `${row},${column}`;
       for (let i = 0; i < resultPath.length; i++) {
         if (resultPath[i] === coords) {
@@ -68,6 +72,17 @@ export default function Node({
       }
     }
   }, [resultPath, row, column]);
+
+  useEffect(() => {
+    if (visitedNodes) {
+      for (let i = 0; i < visitedNodes.length; i++) {
+        if (`${row},${column}` === visitedNodes[i]) {
+          setIsVisited(true);
+        }
+      }
+      //console.log(`${row},${column}`);
+    }
+  }, [row, column, visitedNodes]);
 
   const handleNodeClickDrag = (e, row, col) => {
     if (e.buttons === 1 || e.buttons === 3) {
@@ -119,14 +134,14 @@ export default function Node({
       {isStartNode && (
         <span className={resultPath && !startMoved ? "path" : ""}>
           <FaBullseye
-            style={{ fontSize: "26px", paddingTop: "2px", color: "green" }}
+            style={{ fontSize: "20px", paddingTop: "0px", color: "green" }}
           />
         </span>
       )}
       {isFinishNode && (
         <span className={resultPath && !finishMoved ? "path" : ""}>
           <FaBullseye
-            style={{ fontSize: "26px", paddingTop: "2px", color: "red" }}
+            style={{ fontSize: "20px", paddingTop: "0px", color: "red" }}
           />
         </span>
       )}
@@ -134,9 +149,14 @@ export default function Node({
 
       {isPath && <span className="path"></span>}
 
-      {!isStartNode && !isWall && !isFinishNode && !isVisited && !isPath && (
-        <span></span>
-      )}
+      {isVisited &&
+        !isStartNode &&
+        !isFinishNode &&
+        !isWall &&
+        !isPath &&
+        showSeek && <span className="visited"></span>}
+
+      {!isStartNode && !isWall && !isFinishNode && !isPath && <span></span>}
     </div>
   );
 }
