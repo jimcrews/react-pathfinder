@@ -71,10 +71,6 @@ function App() {
     }
   }, [finishLocation, graph]);
 
-  const goPath = () => {
-    go();
-  };
-
   const updateGraph = (row, column, nodeState) => {
     update(row, column, nodeState);
   };
@@ -147,7 +143,7 @@ function App() {
       }
     }
 
-    return setGraph(g);
+    setGraph(g);
   };
 
   const update = (row, column, nodeState) => {
@@ -215,8 +211,6 @@ function App() {
         }
       });
     }
-
-    //return graph;
   };
 
   const findLowestCostNode = (costs, processed) => {
@@ -240,7 +234,6 @@ function App() {
   };
 
   const go = () => {
-    console.log(graph);
     // track lowest cost to reach each node
     const trackedCosts = Object.assign({ finish: Infinity }, graph.start);
 
@@ -308,7 +301,7 @@ function App() {
                 <td></td>
                 <td></td>
                 <td
-                  style={{ position: "absolute" }}
+                  style={{ position: "absolute", cursor: "default" }}
                   onClick={() => setShowSeek(!showSeek)}
                 >
                   Show Seek
@@ -353,10 +346,11 @@ function App() {
                   <button onClick={() => restart()}>Reset</button>
                 </td>
                 <td style={{ paddingLeft: "5px" }}>
-                  <button onClick={goPath} style={{ marginRight: "30px" }}>
+                  <button onClick={go} style={{ marginRight: "30px" }}>
                     Go
                   </button>
                 </td>
+
                 <td
                   style={{ position: "absolute" }}
                   onClick={() => setShowSeek(!showSeek)}
