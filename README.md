@@ -1,68 +1,59 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![](https://res.cloudinary.com/digjdosfu/image/upload/v1604200196/Articles/shortest_path_app_txwttr.png)
 
-## Available Scripts
+Dijkstra's algorithm (or Dijkstra's Shortest Path First algorithm) is an algorithm for finding the shortest paths between nodes in a graph.
 
-In the project directory, you can run:
+### Step 1 : Prepare the Data Structure
 
-### `npm start`
+To implement a table like structure, I created a 2-D array. I can access each cell using row,column coordinates:
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+| 0,0 | 0,1 | 0,2 | 0,3 | 0,4 |
+| 1,0 | 1,1 | 1,2 | 1,3 | 1,4 |
+| 2,0 | 2,1 | 2,2 | 2,3 | 2,4 |
+| 3,0 | 3,1 | 3,2 | 3,3 | 3,4 |
+```
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Step 2 : Track Neighbors and Costs
 
-### `npm test`
+We need to keep track of each cell along with its neighbors and the cost to reach them. I created an object for each cell, and a child object for its neighbors. For example, 0,0 can access 0,1 and 1,0 each with a cost of '1':
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```javascript
+const graph = {
+	0,0: { "0,1": 1, "1,0": 1 },
+	0,1: { "0,0": 1, "0,2": 1, "1,1": 1 },
+	0,2: { "0,3": 1, "0,1": 1, "1,2": 1 },
+	0,3: { "0,4": 1, "0,2": 1, "1,3": 1 },
+	0,4: { "0,5": 1, "0,3": 1, "1,4": 1 },
+	.
+	.
+};
+```
 
-### `npm run build`
+### Step 3 : Update Graph for User Placements
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Once Start and Finish positions have been defined, update the graph. We will need to do the same for Walls and Weights. Walls will have a cost of infinity, and Weights will have a cost of 20.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+```javascript
+const graph = {
+	start: { "0,1": 1, "1,0": 1 },
+	0,1: {"0,0": 1, "0,2": 1, "1,1": 1 },
+	0,2: {"0,3": 1, "0,1": 1, "1,2": 1 },
+	0,3: {"0,4": 1, "0,2": 1, "1,3": 1 },
+	0,4: {"0,5": 1, "0,3": 1, "1,4": 1 },
+	.
+	.
+	finish: { "1,2": 1, "3,2": 1, "2,1": 1, "2,3": 1 }
+};
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Step 4 : Algorithm
 
-### `npm run eject`
+The basic steps to finding the shortest path to the finish are the following.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+1.  Move to a node that we haven’t visited, choosing the fastest node to get to first.
+2.  At that node, check how long it will take us to get to each of its neighboring nodes. Add the neighbor’s weight to the time it took to get to the node we’re currently on.
+3.  Check whether that calculated time is faster than the previously known shortest time to get to that node. If it _is_ faster, update our records to reflect the new shortest time. We’ll also add this node to our line of nodes to visit next. That line will be arranged in order of shortest calculated time to reach.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+So we’re basically calculating the time it takes to reach one node to the next and picking the shortest path to the wanted node.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+###### reference: [https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)
