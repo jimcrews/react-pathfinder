@@ -1,3 +1,9 @@
+## Shortest Path Finder
+
+### Implement Dijkstra's algorithm using React.
+
+---
+
 ![](https://res.cloudinary.com/digjdosfu/image/upload/v1604200196/Articles/shortest_path_app_txwttr.png)
 
 Dijkstra's algorithm (or Dijkstra's Shortest Path First algorithm) is an algorithm for finding the shortest paths between nodes in a graph.
